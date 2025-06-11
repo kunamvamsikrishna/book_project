@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes 
 from rest_framework.response import Response
 from .models import *
 from .serilazer import *
 from rest_framework import status
+from rest_framework.permissions import AllowAny  
 
 
 @api_view(['GET'])
@@ -22,6 +23,7 @@ def get_book(request,id):
         return Response({'error':'Book not found'},status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
+@permission_classes(['AllowAny'])
 def create_book(request):
     serailzer = Bookseralizer(data=request.data)
     if serailzer.is_valid():
@@ -30,6 +32,7 @@ def create_book(request):
     return Response({'error':serailzer.errors},status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT','PATCH'])
+@permission_classes(['AllowAny'])
 def update_book(request,id):
     try:
         book = Book.objects.get(id=id)
@@ -40,7 +43,9 @@ def update_book(request,id):
         serailzer.save()
         return Response('data:serailzer.data',status=status.HTTP_200_OK)
     return Response({'error':serailzer.errors},status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['DELETE'])
+@permission_classes(['AllowAny'])
 def delete_book(request,id):
     try:
         book = Book.objects.get(id=id)  

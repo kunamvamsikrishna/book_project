@@ -1,0 +1,17 @@
+# Ignore Python compiled files
+__pycache__/
+*.pyc
+
+# Ignore environment
+env/
+venv/
+myenv/
+
+# Ignore VSCode settings
+.vscode/
+
+# Ignore database
+*.sqlite3
+
+# Ignore migrations (optional)
+**/migrations/
